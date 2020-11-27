@@ -1,18 +1,28 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addVote } from '../reducers/anecdoteReducer';
+import { setNotification, unsetNotification } from '../reducers/notificationReducer';
 
 const AnectodeList = () => {
 
   const dispatch = useDispatch();
 
-  const anecdotes = useSelector(state => state.sort((a, b) => {
-    if(a.votes > b.votes) return -1;
-    else return 1;
-  }));
+  const anecdotes = useSelector((state) => {
+    const sortedAnectodes = state.anecdotes.sort((a, b) => {
+      if(a.votes > b.votes) return -1;
+      else return 1;
+    });
+    if(state.filter){
+      const filteredAnectodes = sortedAnectodes.filter( anectode => anectode.content.includes(state.filter));
+      return filteredAnectodes;
+    }
+    return sortedAnectodes;
+  });
 
-  const vote = (id) => {
-    dispatch(addVote(id));
+  const vote = (anectode) => {
+    dispatch(addVote(anectode.id));
+    dispatch(setNotification(`Upvoted anectode - ${anectode.content}`));
+    window.setTimeout(() => dispatch(unsetNotification()), 5000);
   }
 
   React.useEffect(() => {
@@ -27,7 +37,7 @@ const AnectodeList = () => {
         </div>
         <div>
           has {anecdote.votes}
-          <button onClick={() => vote(anecdote.id)}>vote</button>
+          <button onClick={() => vote(anecdote)}>vote</button>
         </div>
       </div>
     )}

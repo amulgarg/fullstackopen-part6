@@ -1,5 +1,7 @@
 import React from 'react';
 import { addAnectode } from '../reducers/anecdoteReducer';
+import { setNotification, unsetNotification } from '../reducers/notificationReducer';
+
 import { useDispatch } from 'react-redux';
 
 const AnectodeForm = (s) => {
@@ -9,6 +11,8 @@ const AnectodeForm = (s) => {
   const createAnectode = (event) => {
     event.preventDefault();
     dispatch(addAnectode(event.target.anectode.value));
+    dispatch(setNotification(`Created new anectode - ${event.target.anectode.value}`));
+    window.setTimeout(() => dispatch(unsetNotification()), 5000);
   }
 
   return <React.Fragment>
