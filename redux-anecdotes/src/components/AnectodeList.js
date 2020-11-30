@@ -11,7 +11,7 @@ const AnectodeList = (props) => {
 
   React.useEffect(() => {
     props.initializeAnecdotes();
-  }, [props]);
+  }, []);
 
   return <React.Fragment>
     {props.anecdotes.map(anecdote =>

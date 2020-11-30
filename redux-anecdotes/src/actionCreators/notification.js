@@ -3,6 +3,7 @@ import { setNotificationText, unsetNotification } from '../reducers/notification
 export const setNotification = (notificationText, timeout) => {
   return dispatch => {
     dispatch(setNotificationText(notificationText));
-    window.setTimeout(() => dispatch(unsetNotification()), timeout);
+    window.clearTimeout(window.timeoutId);
+    window.timeoutId = window.setTimeout(() => dispatch(unsetNotification()), timeout);
   }  
 }
