@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addVote } from '../reducers/anecdoteReducer';
+import { addVote, initAnecdotes } from '../reducers/anecdoteReducer';
 import { setNotification, unsetNotification } from '../reducers/notificationReducer';
+import anectodesService from '../services/anectodes';
 
 const AnectodeList = () => {
 
@@ -25,9 +26,10 @@ const AnectodeList = () => {
     window.setTimeout(() => dispatch(unsetNotification()), 5000);
   }
 
-  React.useEffect(() => {
-    console.log('rendering: App.js');
-  });
+  React.useEffect(async () => {
+    const anecdotes = await anectodesService.getAll();
+    dispatch(initAnecdotes(anecdotes));
+  }, []);
 
   return <React.Fragment>
     {anecdotes.map(anecdote =>
