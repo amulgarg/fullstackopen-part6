@@ -12,7 +12,7 @@ const reducer = (state = initialState, action) => {
   }
 }
 
-export const setNotification = (notification) => {
+export const setNotificationText = (notification) => {
   return {
     type: 'SET_NOTIFICATION',
     notification

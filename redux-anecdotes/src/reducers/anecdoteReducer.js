@@ -5,12 +5,10 @@ const reducer = (state = initialState, action) => {
   console.log('action', action)
 
   switch(action.type){
-    case 'VOTE_ANECTODE':
-      const anectode = state.find(anectode => anectode.id === action.id);
-      const changedAnectode = { ...anectode, votes: anectode.votes + 1 };
+    case 'UPDATE_ANECDOTE':
       return state.map(anectode => {
         if(anectode.id === action.id){
-          return changedAnectode;
+          return action.changedAnectode;
         }
         return anectode;
       });
@@ -23,10 +21,11 @@ const reducer = (state = initialState, action) => {
   }
 }
 
-export const addVote = (id) => {
+export const updateAnecdote = (id, changedAnectode) => {
   return {
-    type: 'VOTE_ANECTODE',
-    id
+    type: 'UPDATE_ANECDOTE',
+    id,
+    changedAnectode
   };
 };
 

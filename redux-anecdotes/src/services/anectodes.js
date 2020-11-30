@@ -22,4 +22,9 @@ const createNew = async (anectode) => {
   return response.data
 }
 
-export default { getAll, createNew }
+const update = async (anectode) => {
+  const response = await axios.put(`${baseUrl}/${anectode.id}`, anectode);
+  return response.data
+}
+
+export default { getAll, createNew, update }

@@ -1,8 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addVote, initAnecdotes } from '../reducers/anecdoteReducer';
-import { setNotification, unsetNotification } from '../reducers/notificationReducer';
-import anectodesService from '../services/anectodes';
+import { initializeAnecdotes, voteAnecdote } from '../actionCreators/anectodes';
 
 const AnectodeList = () => {
 
@@ -21,15 +19,12 @@ const AnectodeList = () => {
   });
 
   const vote = (anectode) => {
-    dispatch(addVote(anectode.id));
-    dispatch(setNotification(`Upvoted anectode - ${anectode.content}`));
-    window.setTimeout(() => dispatch(unsetNotification()), 5000);
+    dispatch(voteAnecdote(anectode));
   }
 
-  React.useEffect(async () => {
-    const anecdotes = await anectodesService.getAll();
-    dispatch(initAnecdotes(anecdotes));
-  }, []);
+  React.useEffect(() => {
+    dispatch(initializeAnecdotes());
+  }, [dispatch]);
 
   return <React.Fragment>
     {anecdotes.map(anecdote =>
