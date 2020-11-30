@@ -1,14 +1,11 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { createAnecdote } from '../actionCreators/anectodes';
 
-const AnectodeForm = (s) => {
-
-  const dispatch = useDispatch();
-
+const AnectodeForm = (props) => {
   const createAnectode = async (event) => {
     event.preventDefault();
-    dispatch(createAnecdote(event.target.anectode.value));
+    props.createAnecdote(event.target.anectode.value);
   }
 
   return <React.Fragment>
@@ -20,4 +17,10 @@ const AnectodeForm = (s) => {
   </React.Fragment>;
 }
 
-export default AnectodeForm;
+const mapDispatchToProps = (dispatch) => ({
+  createAnecdote: (anecdoteText) => {
+    dispatch(createAnecdote(anecdoteText));
+  }
+});
+
+export default connect(null, mapDispatchToProps)(AnectodeForm);
